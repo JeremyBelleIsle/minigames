@@ -174,6 +174,14 @@ func Run() {
 	win, winCases = DetectWinOrTieGame()
 }
 
+func IsOver() bool {
+	return win != unknown
+}
+
+func Reset() {
+	Init()
+}
+
 func Draw(screen *ebiten.Image, mplusSource *text.GoTextFaceSource) {
 	for _, l := range lines {
 		vector.StrokeLine(screen, float32(l.x1), float32(l.y1), float32(l.x2), float32(l.y2), float32(l.thickness), l.clr, false)

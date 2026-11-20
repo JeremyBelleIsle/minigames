@@ -17,8 +17,8 @@ type Game int
 const (
 	Menu Game = iota
 	TicTacToe
-	RockPaperScissors
 	Snake
+	RockPaperScissors
 	Pong
 	FlappyBird
 )
@@ -60,8 +60,8 @@ func (g Game) String() string {
 func Init() {
 	names := []Game{
 		TicTacToe,
-		RockPaperScissors,
 		Snake,
+		RockPaperScissors,
 		Pong,
 		FlappyBird,
 	}

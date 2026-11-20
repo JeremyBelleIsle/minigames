@@ -1,6 +1,7 @@
 package main
 
 import (
+	"MiniGames/backToHomeButton"
 	"MiniGames/interfaceSettings"
 	"MiniGames/menu"
 	"MiniGames/tic_tac_toe"
@@ -12,7 +13,9 @@ import (
 	"github.com/hajimehoshi/ebiten/v2/text/v2"
 )
 
-type Game struct{}
+type Game struct {
+	backToHomeButton backToHomeButton.HomeButton
+}
 
 var mplusSource *text.GoTextFaceSource
 
@@ -22,6 +25,13 @@ func (g *Game) Update() error {
 		menu.ClickOnMiniGame()
 	case menu.TicTacToe:
 		tic_tac_toe.Run()
+
+		if tic_tac_toe.IsOver() {
+			if g.backToHomeButton.Clic() {
+				tic_tac_toe.Reset()
+				menu.CurrentGame = menu.Menu
+			}
+		}
 	}
 	return nil
 }
@@ -33,6 +43,10 @@ func (g *Game) Draw(screen *ebiten.Image) {
 		switch menu.CurrentGame {
 		case menu.TicTacToe:
 			tic_tac_toe.Draw(screen, mplusSource)
+
+			if tic_tac_toe.IsOver() {
+				g.backToHomeButton.Draw(screen, mplusSource)
+			}
 		}
 	}
 }
@@ -54,7 +68,7 @@ func main() {
 	mplusSource = s
 
 	menu.Init()
-	if err := ebiten.RunGame(&Game{}); err != nil {
+	if err := ebiten.RunGame(&Game{backToHomeButton: backToHomeButton.New()}); err != nil {
 		log.Fatal(err)
 	}
 }
